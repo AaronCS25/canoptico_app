@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:canoptico_app/config/config.dart';
 
 void main() => runApp(const MyApp());
 
@@ -7,12 +8,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Material App Bar')),
-        body: const Center(child: Text('Hello World')),
-      ),
+      theme: AppTheme.darkTheme,
     );
   }
 }
