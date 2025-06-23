@@ -17,6 +17,7 @@ class AppTheme {
       error: Color(0xFFEF4444),
       onError: Color(0xFFFAFAF9),
     ),
+    dividerColor: const Color(0xFFE5E7EB),
     scaffoldBackgroundColor: const Color(0xFFFFFBF0),
     textTheme: _buildTextTheme(_warmTextColors),
     cardTheme: _cardTheme(const Color(0xFFFFFFFF), const Color(0xFFE7E5E4)),
@@ -24,6 +25,11 @@ class AppTheme {
       const Color(0xFFF97415),
       const Color(0xFFFAFAF9),
     ),
+    filledButtonTheme: _filledButtonTheme(
+      const Color(0xFFF97415),
+      const Color(0xFFFAFAF9),
+    ),
+    textButtonTheme: _textButtonTheme(const Color(0xFFF97415)),
     inputDecorationTheme: _inputDecorationTheme(const Color(0xFFE7E5E4)),
   );
 
@@ -41,6 +47,7 @@ class AppTheme {
       error: Color(0xFFEF4444),
       onError: Color(0xFFF8FAFC),
     ),
+    dividerColor: const Color(0xFFE2E8F0),
     scaffoldBackgroundColor: const Color(0xFFFFFFFF),
     textTheme: _buildTextTheme(_lightTextColors),
     cardTheme: _cardTheme(const Color(0xFFFFFFFF), const Color(0xFFE2E8F0)),
@@ -48,6 +55,11 @@ class AppTheme {
       const Color(0xFFF97415),
       const Color(0xFFF8FAFC),
     ),
+    filledButtonTheme: _filledButtonTheme(
+      const Color(0xFFF97415),
+      const Color(0xFFF8FAFC),
+    ),
+    textButtonTheme: _textButtonTheme(const Color(0xFFF97415)),
     inputDecorationTheme: _inputDecorationTheme(const Color(0xFFE2E8F0)),
   );
 
@@ -65,6 +77,7 @@ class AppTheme {
       error: Color(0xFFDC2626),
       onError: Color(0xFFF8FAFC),
     ),
+    dividerColor: const Color(0xFF334155),
     scaffoldBackgroundColor: const Color(0xFF020617),
     textTheme: _buildTextTheme(_darkTextColors),
     cardTheme: _cardTheme(const Color(0xFF020617), const Color(0xFF1E293B)),
@@ -72,6 +85,11 @@ class AppTheme {
       const Color(0xFFF97415),
       const Color(0xFF0F172A),
     ),
+    filledButtonTheme: _filledButtonTheme(
+      const Color(0xFFF97415),
+      const Color(0xFF0F172A),
+    ),
+    textButtonTheme: _textButtonTheme(const Color(0xFFF97415)),
     inputDecorationTheme: _inputDecorationTheme(const Color(0xFF1E293B)),
   );
 
@@ -140,6 +158,32 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 4,
         shadowColor: Colors.black.withValues(alpha: 0.1),
+      ),
+    );
+  }
+
+  static FilledButtonThemeData _filledButtonTheme(
+    Color backgroundColor,
+    Color foregroundColor,
+  ) {
+    return FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        backgroundColor: backgroundColor,
+        foregroundColor: foregroundColor,
+        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      ),
+    );
+  }
+
+  static TextButtonThemeData _textButtonTheme(Color textColor) {
+    return TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: textColor,
+        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }
