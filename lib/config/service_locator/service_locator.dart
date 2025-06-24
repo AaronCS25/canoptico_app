@@ -32,5 +32,10 @@ class ServiceLocator {
       () => AuthRepositoryImpl(RailwayAuthDatasourceImpl()),
     );
 
+    _getIt.registerLazySingleton<DeviceStatusRepository>(
+      () => DeviceStatusRepositoryImpl(
+        datasource: RailwayDeviceStatusDatasourceImpl(dio: _getIt<Dio>()),
+      ),
+    );
   }
 }
