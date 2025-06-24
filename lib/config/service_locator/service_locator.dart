@@ -1,5 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:canoptico_app/config/config.dart';
 import 'package:canoptico_app/features/auth/auth.dart';
+import 'package:canoptico_app/features/shared/shared.dart';
 
 class ServiceLocator {
   static final _getIt = GetIt.instance;
@@ -7,8 +10,27 @@ class ServiceLocator {
   static T get<T extends Object>() => _getIt.get<T>();
 
   static Future<void> init() async {
-    _getIt.registerLazySingleton<AuthRepositoryImpl>(
+    _getIt.registerLazySingleton<DictStorageService>(
+      () => DictStorageServiceImpl(),
+    );
+
+    _getIt.registerSingleton<AuthTokenService>(
+      AuthTokenServiceImpl(_getIt.get<DictStorageService>()),
+    );
+
+    await _getIt.get<AuthTokenService>().init();
+
+    _getIt.registerLazySingleton<Dio>(() {
+      final dio = Dio(BaseOptions(baseUrl: Environment.apiUrl));
+
+      dio.interceptors.add(AuthInterceptor(_getIt.get<AuthTokenService>()));
+
+      return dio;
+    });
+
+    _getIt.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(RailwayAuthDatasourceImpl()),
     );
+
   }
 }

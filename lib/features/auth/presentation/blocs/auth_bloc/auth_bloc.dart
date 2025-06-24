@@ -1,15 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:canoptico_app/features/auth/auth.dart';
-import 'package:canoptico_app/features/shared/shared.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
-  final DictStorageService dictStorageService;
+  final AuthTokenService authTokenService;
 
-  AuthBloc({required this.authRepository, required this.dictStorageService})
+  AuthBloc({required this.authRepository, required this.authTokenService})
     : super(const AuthState()) {
     on<AuthLogin>(_login);
     on<AuthSignUp>(_signUp);
@@ -44,12 +43,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _checkAuth(AuthCheck event, Emitter<AuthState> emit) async {
-    final accessToken = await dictStorageService.get<String>("token");
-    if (accessToken == null) return add(const AuthLogout());
+    final auth = await authTokenService.getAuth();
+    if (auth == null) return add(const AuthLogout());
 
     try {
-      final auth = await authRepository.checkAuthStatus(accessToken);
-      add(AuthSetLoggedUser(auth: auth));
+      final checkedAuth = await authRepository.checkAuthStatus(auth.token);
+      add(AuthSetLoggedUser(auth: checkedAuth));
     } catch (e) {
       add(const AuthLogout());
     }
@@ -59,7 +58,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthSetLoggedUser event,
     Emitter<AuthState> emit,
   ) async {
-    await dictStorageService.save<String>("token", event.auth.token);
+    await authTokenService.saveAuth(event.auth);
     emit(
       state.copyWith(
         auth: event.auth,
@@ -70,7 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _logout(AuthLogout event, Emitter<AuthState> emit) async {
-    await dictStorageService.delete("token");
+    await authTokenService.deleteAuth();
     emit(
       state.copyWith(
         auth: null,

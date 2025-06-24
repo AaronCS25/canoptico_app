@@ -9,7 +9,7 @@ class RailwayAuthDatasourceImpl implements AuthDatasource {
   Future<AuthEntity> checkAuthStatus(String token) async {
     try {
       await dio.get(
-        "/sensors/humidity",
+        "/sensors/humidty",
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
