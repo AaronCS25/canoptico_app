@@ -12,7 +12,7 @@ class SignupScreen extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
         create: (context) => SignupFormBloc(
-          signupCallback: ServiceLocator.get<AuthRepositoryImpl>().register,
+          signupCallback: ServiceLocator.get<AuthRepository>().register,
         ),
         child: const _SignupScreenBody(),
       ),
