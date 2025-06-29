@@ -1,7 +1,7 @@
 class FeederLevelModel {
   final int id;
   final DateTime timestamp;
-  final int value;
+  final double value;
 
   FeederLevelModel({
     required this.id,

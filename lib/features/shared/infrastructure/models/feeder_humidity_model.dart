@@ -1,7 +1,7 @@
 class FeederHumidityModel {
   final int id;
   final DateTime timestamp;
-  final int value;
+  final double value;
 
   FeederHumidityModel({
     required this.id,

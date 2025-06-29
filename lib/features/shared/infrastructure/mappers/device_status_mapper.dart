@@ -1,17 +1,12 @@
 import 'package:canoptico_app/features/shared/shared.dart';
 
 class DeviceStatusMapper {
-  static BowlFood bowlFoodModelToEntity(BowlFoodModel model) => BowlFood(
-    amount: double.parse(model.value.toString()),
-    timestamp: model.timestamp,
-  );
+  static BowlFood bowlFoodModelToEntity(BowlFoodModel model) =>
+      BowlFood(amount: model.value, timestamp: model.timestamp);
 
   static FeederHumidity feederHumidityModelToEntity(
     FeederHumidityModel model,
-  ) => FeederHumidity(
-    humidity: double.parse(model.value.toString()),
-    timestamp: model.timestamp,
-  );
+  ) => FeederHumidity(humidity: model.value, timestamp: model.timestamp);
 
   static FeederLevel feederLevelModelToEntity(FeederLevelModel model) =>
       FeederLevel(
@@ -21,8 +16,5 @@ class DeviceStatusMapper {
 
   static FeederTemperature feederTemperatureModelToEntity(
     FeederTemperatureModel model,
-  ) => FeederTemperature(
-    temperature: double.parse(model.value.toString()),
-    timestamp: model.timestamp,
-  );
+  ) => FeederTemperature(temperature: model.value, timestamp: model.timestamp);
 }

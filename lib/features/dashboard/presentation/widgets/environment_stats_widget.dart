@@ -56,7 +56,7 @@ class EnvironmentStatsWidget extends StatelessWidget {
               ),
               const SizedBox(height: 8.0),
               Text(
-                "${(value * 100).round()}%",
+                "${value.round()}%",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -71,7 +71,7 @@ class EnvironmentStatsWidget extends StatelessWidget {
               ),
               const SizedBox(height: 8.0),
               LinearProgressIndicator(
-                value: value,
+                value: value / 100,
                 minHeight: 6.0,
                 color: isDark
                     ? config.darkPrimaryColor
