@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:canoptico_app/config/config.dart';
 import 'package:canoptico_app/features/auth/auth.dart';
 import 'package:canoptico_app/features/shared/shared.dart';
+import 'package:canoptico_app/features/dashboard/dashboard.dart';
 
 class ServiceLocator {
   static final _getIt = GetIt.instance;
@@ -36,6 +37,14 @@ class ServiceLocator {
       () => DeviceStatusRepositoryImpl(
         datasource: RailwayDeviceStatusDatasourceImpl(dio: _getIt<Dio>()),
       ),
+    );
+
+    _getIt.registerLazySingleton<CameraStreamDatasource>(
+      () => RailwayCameraStreamDatasource(),
+    );
+
+    _getIt.registerLazySingleton<CameraStreamRepository>(
+      () => CameraStreamRepositoryImpl(_getIt.get<CameraStreamDatasource>()),
     );
   }
 }
