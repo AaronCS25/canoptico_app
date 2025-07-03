@@ -90,7 +90,7 @@ class DailySummaryWidget extends StatelessWidget {
                       : const Color(0xFFD1FAE5),
                 ),
                 const SizedBox(height: 8.0),
-                Text("95% consumption ", style: theme.textTheme.bodyMedium),
+                Text("95% consumption", style: theme.textTheme.bodyMedium),
               ],
             ),
           ),
