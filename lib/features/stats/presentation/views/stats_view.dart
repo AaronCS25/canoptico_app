@@ -17,8 +17,9 @@ class _StatsViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
+      physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
           Row(
