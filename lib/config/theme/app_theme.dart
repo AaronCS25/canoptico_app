@@ -21,6 +21,12 @@ class AppTheme {
     scaffoldBackgroundColor: const Color(0xFFFFFBF0),
     textTheme: _buildTextTheme(_warmTextColors),
     cardTheme: _cardTheme(const Color(0xFFFFFFFF), const Color(0xFFE7E5E4)),
+    switchTheme: _switchTheme(
+      const Color(0xFFF97316),
+      const Color(0xFFE7E5E4),
+      const Color(0xFFFFFAF0),
+      const Color(0xFFFFFAF0),
+    ),
     elevatedButtonTheme: _primaryButtonTheme(
       const Color(0xFFF97415),
       const Color(0xFFFAFAF9),
@@ -51,6 +57,12 @@ class AppTheme {
     scaffoldBackgroundColor: const Color(0xFFFFFFFF),
     textTheme: _buildTextTheme(_lightTextColors),
     cardTheme: _cardTheme(const Color(0xFFFFFFFF), const Color(0xFFE2E8F0)),
+    switchTheme: _switchTheme(
+      const Color(0xFFF97415),
+      const Color(0xFFE2E8F0),
+      const Color(0xFFFFFFFF),
+      const Color(0xFFFFFFFF),
+    ),
     elevatedButtonTheme: _primaryButtonTheme(
       const Color(0xFFF97415),
       const Color(0xFFF8FAFC),
@@ -81,6 +93,12 @@ class AppTheme {
     scaffoldBackgroundColor: const Color(0xFF020617),
     textTheme: _buildTextTheme(_darkTextColors),
     cardTheme: _cardTheme(const Color(0xFF020617), const Color(0xFF1E293B)),
+    switchTheme: _switchTheme(
+      const Color(0xFFF97415),
+      const Color(0xFF1E293B),
+      const Color(0xFF020817),
+      const Color(0xFF020817),
+    ),
     elevatedButtonTheme: _primaryButtonTheme(
       const Color(0xFFF97415),
       const Color(0xFF0F172A),
@@ -199,6 +217,41 @@ class AppTheme {
         borderRadius: BorderRadius.circular(12),
         borderSide: const BorderSide(color: Color(0xFFFF8C42)),
       ),
+    );
+  }
+
+  static SwitchThemeData _switchTheme(
+    Color activeColor,
+    Color inactiveColor,
+    Color activeThumbColor,
+    Color inactiveThumbColor,
+  ) {
+    return SwitchThemeData(
+      thumbColor: WidgetStateProperty.resolveWith<Color>((
+        Set<WidgetState> states,
+      ) {
+        if (states.contains(WidgetState.selected)) {
+          return activeThumbColor;
+        }
+        return inactiveThumbColor;
+      }),
+      trackColor: WidgetStateProperty.resolveWith<Color>((
+        Set<WidgetState> states,
+      ) {
+        if (states.contains(WidgetState.selected)) {
+          return activeColor;
+        }
+        return inactiveColor;
+      }),
+      trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((
+        Set<WidgetState> states,
+      ) {
+        if (states.contains(WidgetState.selected)) {
+          return null;
+        }
+        return inactiveColor.withValues(alpha: 0.5);
+      }),
+      splashRadius: 20,
     );
   }
 
