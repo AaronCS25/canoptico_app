@@ -12,7 +12,7 @@ class ScheduleView extends StatelessWidget {
       body: BlocProvider(
         create: (context) => ScheduleBloc(
           scheduleRepository: ServiceLocator.get<ScheduleRepository>(),
-        ),
+        )..add(SchedulesFetched()),
         child: const _ScheduleViewBody(),
       ),
     );
@@ -24,39 +24,69 @@ class _ScheduleViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Es una buena práctica añadir el evento para cargar los datos aquí
-    context.read<ScheduleBloc>().add(SchedulesFetched());
-
     final theme = Theme.of(context);
-    final scheduleList = context.watch<ScheduleBloc>().state.schedules;
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
-      physics: const BouncingScrollPhysics(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.calendar_month_outlined,
-                size: 20,
-                color: theme.colorScheme.primary,
-              ),
-              const SizedBox(width: 8),
-              Text("Active Schedules", style: theme.textTheme.headlineMedium),
-            ],
+          // 1. El título se queda fijo en la parte superior
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0, bottom: 12.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.calendar_month_outlined,
+                  size: 20,
+                  color: theme.colorScheme.primary,
+                ),
+                const SizedBox(width: 8),
+                Text("Active Schedules", style: theme.textTheme.headlineMedium),
+              ],
+            ),
           ),
-          const SizedBox(height: 12),
 
-          ...scheduleList.map((schedule) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12.0),
-              child: ScheduleItemWidget(schedule: schedule),
-            );
-          }),
+          // 2. La lista ahora ocupará el espacio restante
+          Expanded(
+            child: BlocBuilder<ScheduleBloc, ScheduleState>(
+              builder: (context, state) {
+                if (state.status == ScheduleStatus.initial ||
+                    state.status == ScheduleStatus.loading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (state.status == ScheduleStatus.failure) {
+                  return Center(child: Text('Error: ${state.errorMessage}'));
+                }
+
+                // --- LÓGICA MODIFICADA AQUÍ ---
+                return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  // 3. El número de items es la lista + 1 (para el formulario)
+                  itemCount: state.schedules.length + 1,
+                  itemBuilder: (context, index) {
+                    // 4. Si el índice es para el último item, muestra el formulario
+                    if (index == state.schedules.length) {
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 8.0, bottom: 16.0),
+                        child: ScheduleAddItemWidget(),
+                      );
+                    }
+
+                    // Si no, muestra un item de la lista de schedules
+                    final schedule = state.schedules[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12.0),
+                      child: ScheduleItemWidget(
+                        key: ValueKey(schedule.id),
+                        schedule: schedule,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
