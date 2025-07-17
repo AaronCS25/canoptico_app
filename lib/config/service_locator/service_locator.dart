@@ -1,3 +1,4 @@
+import 'package:canoptico_app/features/schedule/schedule.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:canoptico_app/config/config.dart';
@@ -31,6 +32,12 @@ class ServiceLocator {
 
     _getIt.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(RailwayAuthDatasourceImpl()),
+    );
+
+    _getIt.registerLazySingleton<ScheduleRepository>(
+      () => ScheduleRepositoryImpl(
+        RailwayScheduleDatasourceImpl(dio: _getIt<Dio>()),
+      ),
     );
 
     _getIt.registerLazySingleton<DeviceStatusRepository>(

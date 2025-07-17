@@ -8,6 +8,7 @@ import 'package:canoptico_app/features/shared/shared.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ServiceLocator.init();
+  await HumanFormats.initFormats();
   await Environment.initEnvironment();
   runApp(const MyApp());
 }
