@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class EnvironmentWidget extends StatelessWidget {
-  const EnvironmentWidget({super.key});
+  final double humidity;
+
+  const EnvironmentWidget({super.key, required this.humidity});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,7 @@ class EnvironmentWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Current Humidity", style: theme.textTheme.bodyMedium),
-                    Text("62%", style: theme.textTheme.titleSmall),
+                    Text("$humidity%", style: theme.textTheme.titleSmall),
                   ],
                 ),
                 const SizedBox(height: 12.0),

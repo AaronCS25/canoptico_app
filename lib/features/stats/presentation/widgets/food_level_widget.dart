@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class FoodLevelWidget extends StatelessWidget {
-  const FoodLevelWidget({super.key});
+  final double foodLevel;
+
+  const FoodLevelWidget({super.key, required this.foodLevel});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class FoodLevelWidget extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              "78 %",
+              "$foodLevel%",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
